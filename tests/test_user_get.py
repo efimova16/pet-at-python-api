@@ -36,3 +36,26 @@ class TestUserGet(BaseCase):
         )
 
         Assertions.assert_json_has_keys(response2, ["username", "firstName", "lastName", "email"])
+
+    @allure.feature("Negative cases")
+    @allure.title("Get user data with authorization data of other user")
+    def test_get_user_details_with_other_auth_data(self):
+        data = {
+            'email': 'vinkotov@example.com',
+            'password': '1234'
+        }
+
+        response1 = MyRequests.post("/user/login", data=data)
+        self.auth_sid = self.get_cookie(response1, "auth_sid")
+        self.token = self.get_header(response1, "x-csrf-token")
+        self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
+
+        response2 = MyRequests.get(
+            f"/user/{self.user_id_from_auth_method + 1}",
+            headers={"x-csrf-token": self.token},
+            cookies={"auth_sid": self.auth_sid}
+        )
+        Assertions.assert_json_has_key(response2, "username")
+        Assertions.assert_json_has_not_key(response2, "firstName")
+        Assertions.assert_json_has_not_key(response2, "lastName")
+        Assertions.assert_json_has_not_key(response2, "email")
