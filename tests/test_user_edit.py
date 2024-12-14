@@ -7,6 +7,8 @@ from src.my_requests import MyRequests
 
 @allure.epic("Edit user cases")
 class TestUserEdit(BaseCase):
+    @allure.feature("Positive cases")
+    @allure.title("Edit just created user")
     def test_edit_just_created_user(self):
         register_data = self.prepare_registration_data()
         response1 = MyRequests.post("/user/", data=register_data)

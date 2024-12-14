@@ -32,6 +32,8 @@ class TestUserAuth(BaseCase):
         self.user_id_from_auth_method = self.get_json_value(response1, "user_id")
 
     @allure.description("This test successfully authorize user by email and password")
+    @allure.feature("Positive cases")
+    @allure.title("User authorization successfully")
     def test_auth_user(self):
         response2 = MyRequests.get("/user/auth",
                                    headers={"x-csrf-token": self.token},
@@ -44,6 +46,8 @@ class TestUserAuth(BaseCase):
             "user_id_from_check_method is not equal user_id_from_auth_method"
         )
 
+    @allure.feature("Negative cases")
+    @allure.title("User authorization w/o sending token or cookie")
     @allure.description("This test checks auth status w/o sending token or cookie")
     @pytest.mark.parametrize('condition', exclude_params)
     def test_negative_auth_user(self, condition):

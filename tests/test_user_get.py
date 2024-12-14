@@ -7,6 +7,8 @@ from src.my_requests import MyRequests
 
 @allure.epic("Get user cases")
 class TestUserGet(BaseCase):
+    @allure.feature("Negative cases")
+    @allure.title("Get user data without authorization")
     def test_get_user_details_not_auth(self):
         response = MyRequests.get(f"/user/2")
         Assertions.assert_json_has_key(response, "username")
@@ -14,6 +16,8 @@ class TestUserGet(BaseCase):
         Assertions.assert_json_has_not_key(response, "lastName")
         Assertions.assert_json_has_not_key(response, "email")
 
+    @allure.feature("Positive cases")
+    @allure.title("Get user data successfully")
     def test_get_user_details_auth_as_same_user(self):
         data = {
             'email': 'vinkotov@example.com',
