@@ -91,7 +91,7 @@ class TestUserEdit(BaseCase):
         )
         Assertions.assert_code_status(response3, 400)
         Assertions.assert_json_value_by_name(response3, "error", "This user can only edit their own data.",
-                                             f"Wrong error message '{response2.content}'")
+                                             f"Wrong error message '{response3.content}'")
 
     @allure.feature("Negative cases")
     @allure.title("Edit data with wrong email format")
@@ -124,7 +124,7 @@ class TestUserEdit(BaseCase):
         )
         Assertions.assert_code_status(response3, 400)
         Assertions.assert_json_value_by_name(response3, "error", "Invalid email format",
-                                             f"Wrong error message '{response2.content}'")
+                                             f"Wrong error message '{response3.content}'")
 
     @allure.feature("Negative cases")
     @allure.title("Edit data with short 'userName' value")
@@ -155,4 +155,4 @@ class TestUserEdit(BaseCase):
         )
         Assertions.assert_code_status(response3, 400)
         Assertions.assert_json_value_by_name(response3, "error", "The value for field `firstName` is too short",
-                                             f"Wrong error message '{response2.content}'")
+                                             f"Wrong error message '{response3.content}'")
